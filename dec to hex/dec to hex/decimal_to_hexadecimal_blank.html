@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Base 10 to Base 2 Calculator</title>
+	<style>
+		body {
+			padding: 10px 0;
+			border: 5px solid #8B4513;
+			text-align: center;
+			background-color: #DEB887;
+			font-family: Georgia, serif;
+		}
+	</style>
+	<script>
+
+		/** 
+		 * if the input is greater than 0,
+		 * the calculator will continue to divide by 16
+		 * and take the remainders
+		 * convert the remainders to letters if necessary
+		 * it will then put the remainders into a string
+		 * put them into an array, reverse the array, and then put it back together
+		 *
+		 * Parameters: decimalNumber
+		 * Return value: hexString
+		 */		
+		function decimalToHex(decimalNumber){
+			var hexString, hexArray;
+
+			// empty string
+			hexString = "";
+			
+			while (decimalNumber>0){
+				// remainder
+				var remainder = decimalNumber % 16;
+				
+				// if remainder is 10, convert to A
+				if (remainder == 10){
+					remainder = "A";
+				}
+				
+				// if remainder is 11, convert to B
+				else if (remainder == 11){
+					remainder = "B";
+
+				}
+				
+				// if remainder is 12, convert to C
+				else if (remainder == 12){
+					remainder = "C"
+				
+				}
+				
+				// if remainder is 13, convert to D
+				else if (remainder == 13){
+					remainder = "D"
+				
+				}
+				
+				// if remainder is 14, convert to E
+				else if (remainder == 14){
+					remainder = "E"
+				
+				}
+				
+				// if remainder is 15, convert to F
+				else if (remainder == 15){
+					remainder = "F"
+				
+				}
+				
+				// integer division
+				decimalNumber = Math.floor(decimalNumber/16);
+				// glue on remainder
+				hexString += remainder;
+				
+				}
+				
+			// split into array
+			hexArray = hexString.split("");
+			// reverse array
+			hexArray.reverse();
+			// glue array back together
+			hexString = hexArray.join("");
+				
+			return hexString;
+			
+		}
+		
+
+		/** 
+		 * Displays a descriptive message-box
+		 * Puts value of output between tags
+		 *
+		 * Parameters: item 1 and item 2
+		 * Return value: output
+		 */		
+		function displayOutput(item1,item2){
+
+			var output;
+			
+			output = item1;
+
+			output += " in decimal is ";
+			
+			output += item2;
+			
+			output += " in hexadecimal.";
+			
+			document.getElementById('idDiv').innerHTML=output;
+		}
+		
+		/** 
+		 * decimalNumber is the calculator's input
+		 * binaryNumber is the calculator's output
+		 *
+		 * Parameters: decimalNumber
+		 * Return value: hexNumber
+		 */		
+		function convert(){
+			
+			var decimalNumber, hexNumber;
+						
+			decimalNumber = document.getElementById("idDecNum").value;
+			
+			var hexNumber = decimalToHex(decimalNumber);
+						
+			displayOutput(decimalNumber, hexNumber);
+		}
+		
+	</script>
+</head>
+<body>
+	<h1>Base 10 to Base 16 Calculator</h1>
+	<img src="coffee.jpg">
+	<br>
+	<input type="text" id="idDecNum" placeholder="Decimal Number">
+	<br>
+	<input type="button" value="Convert to Hexadecimal" onClick="convert()">
+	<br>
+	<br>
+	<div id="idDiv"></div>
+	<br>
+	<br>
+	
+	
+</body>
+</html>

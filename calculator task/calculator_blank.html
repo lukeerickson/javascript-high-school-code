@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript Calculator</title>
+	<style>
+		body {
+			padding: 10px 0;
+			border: 10px dashed blue;
+			text-align: center;
+			background-color: rgb(255,0,255);
+			font-family: "Arial Black", Gadget, sans-serif;
+		}
+	</style>
+	<script>
+		
+		// this is a GLOBAL variable that stores 
+		// the calculator's on-screen history
+		var output = "";
+
+		/** 
+		 * add(x,y) parses its arguments as numbers,
+		 * then returns the sum of these numbers
+		 *
+		 * Parameters: two strings
+		 * Return value: a number (the sum of the arguments, parsed as numbers)
+		 */	
+		function add(x,y){
+			x = Number(x);
+			y = Number(y);
+			return x+y
+		}
+		
+		/** 
+		 * subtract(x,y) parses its arguments as numbers,
+		 * then returns the difference of these numbers
+		 *
+		 * Parameters: two strings
+		 * Return value: a number (the difference of the arguments, parsed as numbers)
+		 */
+		function subtract(x,y){
+			x = Number(x);
+			y = Number(y);
+			return x-y
+		}
+		
+		/** 
+		 * multiply(x,y) parses its arguments as numbers,
+		 * then returns the product of these numbers
+		 *
+		 * Parameters: two strings
+		 * Return value: a number (the product of the arguments, parsed as numbers)
+		 */	
+		function multiply(x,y){
+			x = Number(x);
+			y = Number(y);
+			return x*y
+		}
+		
+		/** 
+		 * divide(x,y) parses its arguments as numbers,
+		 * then returns the quotient of these numbers
+		 *
+		 * Parameters: two strings
+		 * Return value: a number (the quotient of the arguments, parsed as numbers)
+		 */	
+		function divide(x,y){
+			x = Number(x);
+			y = Number(y);
+			return x/y
+		}
+		
+		/** 
+		 * exponentiate(x,y) parses its arguments as numbers,
+		 * then returns the power of these numbers
+		 *
+		 * Parameters: two strings
+		 * Return value: a number (the power of the arguments, parsed as numbers)
+		 */	
+		function exponentiate(x,y){
+			x = Number(x);
+			y = Number(y);
+			return x**y
+		}
+		
+		/** 
+		 * concatenateAndDisplay(item1,item2,item3,item4) concatenates  
+		 * a long output string using its arguments, then displays it
+		 * between the tags <div id=idCalcDiv> and </div>
+		 * two strings passed to it as arguments
+		 *
+		 * Parameters: two strings
+		 * Return value: none
+		 */		
+		function concatenateAndDisplay(item1,item2,item3,item4){
+
+			output += item1; 
+
+			output += item2; 
+
+			output += item3;
+			
+			output += " = ";
+			
+			output += item4;
+
+			output += "<br>";
+			
+			document.getElementById('idCalcDiv').innerHTML=output;
+		}
+		
+		/** 
+		 * calculate() stores the values of the two <input type="text"
+		 * textboxes in the webpage and the <select> dropdown menu as variables
+		 * then uses these values to call the appropriate calculator function(s) from above 
+		 * then displays an appropriate output string
+		 *
+		 * Parameters: none
+		 * Return value: none
+		 */		
+		function calculate(){
+			var first = document.getElementById('idNum1').value;
+			var operation = document.getElementById('idSelectBox').value;
+			var second = document.getElementById('idNum2').value;
+			var result;
+			
+			// if the first input in NaN, it displays the following message
+			if(isNaN(first)){
+				alert("You should only type numbers, chief");
+			}
+			// if the second input is NaN, it displays the following message
+			if(isNaN(second)){
+				alert("You should only type numbers, boss");
+			}
+			else if (operation=="+"){
+				result = add(first,second);
+			}
+			else if (operation=="-"){
+				result = subtract(first, second);
+			}
+			else if (operation=="*"){
+				result = multiply(first, second);
+			}
+			else if (operation=="/"){
+				result = divide(first, second);
+			}
+			else if (operation=="^"){
+				result = exponentiate(first, second);
+			}			
+			concatenateAndDisplay(first,operation,second,result);						
+		}
+		
+		// function clears all history by setting history to an empty string, ""
+		function clearHistory(){
+			output = "";
+			document.getElementById('idCalcDiv').innerHTML=output;
+		}
+		
+	</script>
+</head>
+<body>
+	<h1>JavaScript Calculator</h1>
+	<img src="bear.png">
+	<br>
+	<input type="text" id="idNum1" placeholder="first number">
+		<select id="idSelectBox">
+			<option>+</option>
+			<option>-</option>
+			<option>*</option>
+			<option>/</option>
+			<option>^</option>
+			<option>//</option>
+			<option> % </option>
+		</select>
+	<!--You may notice some mysterious operations above. We'll code // and % as a class-->
+		
+	<input type="text" id="idNum2" placeholder="second number">
+	<br>
+	<input type="button" value="Calculate" onClick="calculate()">
+	<input type="button" value="Clear" onClick="clearHistory()">
+	<br>
+	<br>
+	<div id="idCalcDiv"></div>
+	<br>
+	<br>
+	
+	
+</body>
+</html>

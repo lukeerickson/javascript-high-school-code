@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ASCII to String Converter</title>
+	<style>
+		body {
+			padding: 5px 0;
+			border: 2px dotted blue;
+			text-align: center;
+			background-color: rgb(128,128,128);
+			font-family: 20px Georgia, serif;
+		}
+	</style>
+	
+	<script>
+	
+		// This function takes a string of 8-bit binary integers and 
+		// converts these back to readable characters using the ASCII encoding
+		function convertToString(){
+			
+			// TO DO: declare a variable named 'input'
+			var input;
+			
+			// TO DO: assign 'input' the value of the text in the text area
+			input = document.getElementById("idTxtAreaString").value;
+			
+			// TO DO: split 'input' into an array of binary integers using input = input.split(" ");
+			input = input.split("");
+			
+			// TO DO: declare a variable inputLength and assign to it the length of the 'input' array
+			var inputLength = lengthOfInputArray;
+			
+			// TO DO: declare a variable outputString and assign to it the value of an empty string
+			var outputString = "";
+			
+			// TO DO: write a for loop to do the following to each item:
+			//			1) declare a variable "character" that equals the i-th element in the array 			
+			//			2) convert "character" from a binary integer to a decimal integer
+			//			3) convert this decimal integer to a character using String.fromCharCode(character)
+			// 			4) concatenate "character" onto "outputString"	
+		
+			for (var j = 0; j < lengthOfInputArray; j++){
+				var character = Length(outputString[j]);
+				String.fromCharCode(character);
+				+= character*(2**j);
+				}
+				// TO DO: display the value of outputString
+				return outputString;
+			}
+			
+		// This function displays the value of "item" on the webpage		
+		function display(item){
+			var item;
+			
+			item = document.getElementById("idTxtAreaString").value;
+			
+			document.getElementById('idDiv').innerHTML=binaryToDecimal(item);
+			
+		}
+		
+		// This function takes a binary number and returns its decimal equivalent
+		// You can copy/paste this from your previous work		
+		function binaryToDecimal(binaryNumber){
+			if(isNaN(binaryNumber)){
+				alert("You should only be typing in numbers!");
+			}
+	
+			var binaryString = String(binaryNumber);
+			binaryString = binaryString.split("");
+			binaryString = binaryString.reverse();
+			
+			var decimal = 0
+			var numberOfDigits = binaryString.length;
+			
+			for (var i = 0; i < numberOfDigits; i++){
+				var digit = Number(binaryString[i]);
+				decimal += digit*(2**i);
+				}
+				return decimal;
+		}
+		
+		// var myBin = "111010";
+		// var myDec = binaryToDecimal (myBin);
+		// console.log(myDec);
+		
+	</script>
+</head>
+<body>
+	<!--TO DO: Add a descriptive header using <h1> tags-->
+	<h1>JavaScript ASCII to String Converter</h1>
+	
+	<!--TO DO: Add a small image to your website-->
+	<img src="smokey.png">
+	<br>
+	<textarea id="idTxtAreaString" rows="6" cols="50" >Type ASCII here (as binary)</textarea>
+	<br>
+	<!--TO DO: Put in the code for what to do when the user clicks the button below:-->
+	<input type="button" value="Convert to String" onClick="display()">
+	<br>
+	<div id="idDiv"></div>
+</body>
+</html>

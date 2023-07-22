@@ -1,0 +1,84 @@
+ <!DOCTYPE html>
+<html>
+<head>
+	<title>Fractal Tree</title>
+	<style>
+		body {
+			padding: 10px 0;
+			text-align: center;
+			background-color: rgb(75,100,150);
+			font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+		}
+		button{
+		margin:auto
+		}
+	</style>
+	<script>
+	
+	var length = 100
+	
+	function draw(){
+	
+	
+	
+	}
+	
+	function branch(length){
+	
+	length = length / 2
+	
+	}
+	
+	
+	
+	
+	
+	
+	var branches = 1
+	var x1 = 250
+	var y1 = 500
+	var x2 = 250
+	var y2 = 400
+	
+	function drawBranch(){
+	
+	var canvas = document.getElementById("myCanvas");
+	var ctx = canvas.getContext("2d");
+	ctx.strokeStyle = "#000000";
+	
+	ctx.beginPath();
+	ctx.moveTo(x1, y1);
+	ctx.lineTo(x2, y2);
+	ctx.stroke();
+		
+	x1 = x2
+	y1 = y2
+	x2 = x2/2
+	y2 = y2/2
+		
+	console.log(x1)
+	console.log(y1)
+	console.log(x2)
+	console.log(y2)
+		
+	for (var i = 0; i < branches; i++){
+		drawBranch
+	}
+	
+	branches = branches * 2
+	
+	}
+	
+	//(200, 400)
+	//(400, 400)
+	
+	//moveTo goes to last fork
+	
+	</script>
+</head>
+<body onLoad = "drawBranch()">
+	<canvas id="myCanvas" width="500" height="500"></canvas>
+	<br>
+	<button onClick="drawBranch()">Draw Branches</button>
+</body>
+</html>

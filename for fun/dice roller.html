@@ -1,0 +1,288 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Dice Roller</title>
+	<style>
+		body {
+			padding: 20px 0;
+			border: 5px solid gray;
+			text-align: center;
+			background-color: rgb(75,100,150);
+			font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+		}
+	</style>
+			
+	<script>
+	
+	function changeKey(){
+		
+	key = parseInt(document.getElementById('idSelect').value);
+	
+	}
+	
+	function changeCheck(){
+	
+	check = parseInt(document.getElementById('idSelect2').value);
+	
+	}
+	
+	// Code citation:
+	// 		Author: Mozilla Foundation
+	//		Accessed: 10/16/2017
+	//		URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random 
+	// 		Purpose: Generate a random integer, n, such that min <= n <= max
+	function randomInt(min, max) {
+		
+	min = Math.ceil(min);
+		
+	max = Math.floor(max);
+		
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+		
+	}
+	
+	function d2(){
+	
+	var key = parseInt(document.getElementById('idSelect').value);
+	
+	var output = 0;
+	
+	for (var i = 0; i < key; i++){
+	
+	output += randomInt(1,2);
+	
+	output += " ";
+	
+	}
+	
+	document.getElementById("idDiv").innerHTML = output;
+	
+	}
+	
+	function d3(){
+	
+	var key = parseInt(document.getElementById('idSelect').value);
+	
+	var output = 0;
+	
+	for (var i = 0; i < key; i++){
+	
+	output += randomInt(1,3);
+	
+	output += " ";
+	
+	}
+	
+	document.getElementById("idDiv").innerHTML = output;
+	
+	}
+	
+	function d4(){
+	
+	var key = parseInt(document.getElementById('idSelect').value);
+	
+	var output = 0;
+	
+	for (var i = 0; i < key; i++){
+	
+	output += randomInt(1,4);
+	
+	output += " ";
+	
+	}
+	
+	document.getElementById("idDiv").innerHTML = output;
+	
+	}
+	
+	function d6(){
+	
+	var key = parseInt(document.getElementById('idSelect').value);
+	
+	var output = 0;
+	
+	for (var i = 0; i < key; i++){
+	
+	output += randomInt(1,6);
+	
+	output += " ";
+	
+	}
+	
+	document.getElementById("idDiv").innerHTML = output;
+	
+	}
+	
+	function d8(){
+	
+	var key = parseInt(document.getElementById('idSelect').value);
+	
+	var output = 0;
+	
+	for (var i = 0; i < key; i++){
+	
+	output += randomInt(1,8);
+	
+	output += " ";
+	
+	}
+	
+	document.getElementById("idDiv").innerHTML = output;
+	
+	}
+	
+	function d10(){
+	
+	var key = parseInt(document.getElementById('idSelect').value);
+	
+	var output = 0;
+	
+	for (var i = 0; i < key; i++){
+	
+	output += randomInt(1,10);
+	
+	output += " ";
+	
+	}
+	
+	document.getElementById("idDiv").innerHTML = output;
+	
+	}
+	
+	function d12(){
+	
+	var key = parseInt(document.getElementById('idSelect').value);
+	
+	var output = 0;
+	
+	for (var i = 0; i < key; i++){
+	
+	output += randomInt(1,12);
+	
+	output += " ";
+	
+	}
+	
+	document.getElementById("idDiv").innerHTML = output;
+	
+	}
+	
+	
+	function d20(){
+	
+	var key = parseInt(document.getElementById('idSelect').value);
+	
+	var check = parseInt(document.getElementById('idSelect2').value);
+	
+	var counter = 0;
+	
+	var output = 0;
+	
+	for (var i = 0; i < key; i++){
+	
+	output += randomInt(1,20);
+	
+	if(output >= check){
+	
+	counter = counter + 1;
+	
+	}
+	
+	output += " ";
+	
+	}
+	
+	console.log(counter);
+	
+	document.getElementById("idDiv").innerHTML = output;
+	
+	}
+	
+	
+	function d100(){
+	
+	var key = parseInt(document.getElementById('idSelect').value);
+	
+	var output = 0;
+	
+	for (var i = 0; i < key; i++){
+	
+	output += randomInt(1,100);
+	
+	output += " ";
+	
+	}
+	
+	document.getElementById("idDiv").innerHTML = output;
+	
+	}
+	
+	</script>
+</head>
+
+<body>
+
+	<h1>Dice Roller</h1>
+	
+	# of Dice:
+	<select id="idSelect">
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+		<option>6</option>
+		<option>7</option>
+		<option>8</option>
+		<option>9</option>
+		<option>10</option>
+	</select>
+	
+	<input type="button" value="Change # of Dice" onClick="changeKey()">
+	
+	<br>
+	<br>
+	
+	Skill Check:    
+	<select id="idSelect2">
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+		<option>6</option>
+		<option>7</option>
+		<option>8</option>
+		<option>9</option>
+		<option>10</option>
+		<option>11</option>
+		<option>12</option>
+		<option>13</option>
+		<option>14</option>
+		<option>15</option>
+		<option>16</option>
+		<option>17</option>
+		<option>18</option>
+		<option>19</option>
+		<option>20</option>
+	</select>
+	
+	<input type="button" value="Change Skill Check" onClick="changeCheck()">
+	
+	<br>
+	<br>
+	<input type="button" value="d2" onClick="d2()">
+	<input type="button" value="d3" onClick="d3()">
+	<input type="button" value="d4" onClick="d4()">
+	<input type="button" value="d6" onClick="d6()">
+	<input type="button" value="d8" onClick="d8()">
+	<input type="button" value="d10" onClick="d10()">
+	<input type="button" value="d12" onClick="d12()">
+	<input type="button" value="d20" onClick="d20()">
+	<input type="button" value="d100" onClick="d100()">
+	<br>
+	<br>
+	<div id="idDiv"></div>
+	
+</body>
+
+</html>

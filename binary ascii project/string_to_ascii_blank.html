@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!--TO DO: Add the title "String to Binary ASCII Code Converter"-->
+	
+	<!--TO DO: Add CSS between <style> tags-->
+
+	<script>
+	
+		// This function takes a string of readable characters and converts
+		// them to 8-bit (padded) binary integers using the ASCII encoding
+		function convertToASCII(){
+		
+			// TO DO: declare a variable named 'input'
+			
+			// TO DO: assign 'input' the value of the text in the text area
+			
+			// TO DO: split 'input' into an array of characters using input = input.split("");
+			
+			// TO DO: declare a variable inputLength and assign to it the length of the 'input' array
+			
+			// TO DO: declare a variable outputString and assign to it the value of an empty string
+
+			// TO DO: write a for loop to do the following to each item:
+			//			1) declare a variable "character" that equals the i-th element in the array 			
+			//			2) convert "character" from a readable character to a decimal integer using character = character.charCodeAt(0);
+			//			3) convert "character" from a decimal integer to a binary integer
+			//			4) add padding to this binary integer using character = addPadding(character);
+			// 			5) concatenate "character" onto "outputString"
+			
+			// TO DO: display the value of outputString
+		}
+		
+		// This function displays the value of "item" on the webpage		
+		function display(item){
+			// TO DO
+		}
+
+		// This function takes a decimal number and returns its binary equivalent
+		// You can copy/paste this from your previous work		
+		function decimalToBinary(decimalNumber){
+			// TO DO
+		}
+
+		// This function takes a string and concatenates "0" onto it
+		// until the string is exactly 8 characters long, then returns
+		// this value
+		function addPadding(inputString){
+			while (inputString.length < 8){
+				inputString = "0" + inputString;
+			}
+			
+			return inputString;
+		}
+	</script>
+</head>
+<body>
+	<!--TO DO: Add a descriptive header using <h1> tags-->
+	
+	<!--TO DO: Add a small image to your website-->
+	
+	<textarea id="idTxtAreaString" rows="6" cols="50" >Type string here</textarea>
+	<br>
+	<!--TO DO: Put in the code for what to do when the user clicks the button below:-->
+	<input type="button" value="Convert to ASCII">
+	<br>
+	<div id="idDiv"></div>
+</body>
+</html>

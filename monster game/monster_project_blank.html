@@ -1,0 +1,345 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Fun Monster Fun Game</title>
+	<style>
+		body {
+			padding: 20px 0;
+			border: 5px solid gray;
+			text-align: center;
+			background-color: rgb(75,125,175);
+			font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+		}
+	</style>
+			
+	<script>
+	
+		// initialize global variables here 
+		var heroHealth = 100;
+		var monsterHealth = 100;
+		var monstersDefeated = 0;
+		var currentHero = 0;
+		var currentMonster = 0;
+		
+		// initialize four parallel arrays here:
+		// 		an array for hero names
+		// 		an array for hero image filenames
+		// 		an array for villain names
+		// 		an array for villain image filenames
+		
+		var heroArray = ["johnny appleseed","green giant","lorax","smokey","tin man","paul bunyan"];
+		
+		var heroImageArray = ["johnny appleseed.jpg","green giant.jpg","lorax.png","smokey.png","tin man.jpg","paul bunyan.jpg"];
+		
+		var monsterArray = ["minion","aloysius","wicked witch","bender","murdoc","troll"];
+		
+		var monsterImageArray = ["minion.jpg","aloysius.png","wicked witch.jpg","bender.jfif","murdoc.jfif","troll.png"];
+		
+		// Code citation:
+		// 		Author: Mozilla Foundation
+		//		Accessed: 10/16/2017
+		//		URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random 
+		// 		Purpose: Generate a random integer, n, such that min <= n <= max
+		function randomInt(min, max) {
+		
+		min = Math.ceil(min);
+		
+		max = Math.floor(max);
+		
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+		
+		}
+		
+		// this function depends on what the player chooses in the avatar select box
+		// write code to change the value of the global variable storing the Hero index 
+		// write code to change the document.getElementById('idPicHero').src to the correct file name
+		// 
+		// Hint: this will modify the src for <img src="????" id="idPicHero"> in the body of your webpage
+		function changeHero(){
+		var hero = document.getElementById('idSelect').value;
+		
+		if(hero=="johnny appleseed"){
+			currentHero = 0;
+		}
+		if(hero=="green giant"){
+			currentHero = 1;
+		}
+		if(hero=="lorax"){
+			currentHero = 2;
+		}
+		if(hero=="smokey"){
+			currentHero = 3;
+		}
+		if(hero=="tin man"){
+			currentHero = 4;
+		}
+		if(hero=="paul bunyan"){
+			currentHero = 5;
+		}
+		
+		document.getElementById('idPicHero').src = heroImageArray[currentHero];
+		
+		}
+		
+		// Summary: return a string with a descriptive message about hero damage in a single round of battle
+		// Example: heroMessage(15) might return "The hero, Batman, has dealt 15 damage."
+		// Example: heroMessage(11) might return "The hero, Superman, has dealt 11 damage."
+		// Note: the message should use the appropriate Hero Name based on the current value of the global variable storing the current value of the Hero index
+		function heroMessage(damageLevel){
+	
+		var output;
+		
+		//damageLevel = randomInt(10,17);
+	
+		output = "The hero, ";
+		
+		output += heroArray[currentHero];
+		
+		output += ", has dealt ";
+		
+		output += damageLevel;
+		
+		output += " damage to ";
+		
+		output += monsterArray[currentMonster];
+		
+		document.getElementById('idHeroMessage').innerHTML = output;	
+
+		}
+		
+		// Summary: return a string with a descriptive message about villain damage in a single round of battle
+		// Example: monsterMessage(3) might return "The villain, Joker has dealt 3 damage."
+		// Example: monsterMessage(1) might return "The villain, Lex Luther, has dealt 1 damage."
+		// Note: the message should use the appropriate Monster Name based on the global variable storing the current value of the Monster index
+		function monsterMessage(damageLevel){
+		
+		var output;
+		
+		output = "The monster, "
+		
+		output += monsterArray[currentMonster];
+		
+		output += ", has dealt "
+		
+		output += damageLevel;
+		
+		output += " damage to "
+		
+		output += heroArray[currentHero];
+		
+		document.getElementById('idMonsterMessage').innerHTML = output;	
+		
+		}
+
+		// Summary: this function should generate a new random monster
+		// Note: this function should update global variable values, displayed information, images, and/or buttons as appropriate
+		function setNewMonster(){
+		
+		changeHero();
+		
+		currentMonster = randomInt(0,5);
+		
+		document.getElementById('idPicMonster').src = monsterImageArray[currentMonster];
+		
+		
+		
+		monsterHealth = 100;
+		
+		document.getElementById('idMonsterHealth').innerHTML = monsterHealth;
+		
+		document.getElementById('idButtonContainer').innerHTML = '<input type="button" value="Fight!" onClick="play()">'
+		
+		}
+
+		// Summary: this function should set global variable values and displayed information appropriately for a new game
+		// Note: you may want to call the function setNewMonster() in this function
+		function resetEntireGame(){
+		
+		document.getElementById('idButtonContainer').innerHTML = '<input type="button" value="Fight!" onClick="play()">'
+		
+		heroHealth = 100;
+		
+		monsterHealth = 100;
+		
+		monstersDefeated = 0;
+		
+		currentHero = 0;
+		
+		currentMonster = 0;
+		
+		
+		document.getElementById('idHeroHealth').innerHTML = heroHealth;
+		document.getElementById('idMonsterHealth').innerHTML = monsterHealth;
+		document.getElementById('idMonstersDefeated').innerHTML = monstersDefeated;
+		document.getElementById('idCurrentHero').innerHTML = currentHero;
+		document.getElementById('idCurrentMonster').innerHTML = currentMonster;
+		
+		document.getElementById('idHeroMessage').innerHTML = " ";
+		document.getElementById('idMonsterMessage').innerHTML = " ";
+		
+		setNewMonster();
+
+		
+		
+		}
+		
+		// Summary: Your main game logic goes here. You will be writing decision statements (if/else if) to plan out the logic of the game
+		// Hint: Plan out your algorithm before you start writing code. 
+		// 		 For example here's a summary of one part of the algorithm you might plan out before coding:
+		//       Suppose the player clicks 'Fight!'
+		//       If the hero's health and monster's health are both greater than zero, 
+		// 		 then we should generate a random integer from 10 to 17 for the hero damage,
+		//       as well as a random integer from 1 to 4 for the monster damage. We can use
+		//		 these values in heroMessage() and monsterDamage() to concatenate and 
+		// 		 display a descriptive message. We also need to update variables tracking 
+		// 		 the monster and hero health, display the values of these variables, and
+		//		 display the correct button for playing another round
+		//
+		// Hint: Next, plan out what should happen if the hero's health has gone below 0,
+		//		 and what should happen if the monster's health has gone below 0
+		//	
+		
+		//document.getElementById('idMonsterHealth').innerHTML = monsterHealth;
+		
+		function play(){
+
+		
+		
+		if(heroHealth > 0 && monsterHealth > 0){
+		
+		var heroDamage, monsterDamage;
+		
+		heroDamage = randomInt(10,17);
+		
+		monsterDamage = randomInt(1,4);
+		
+		heroMessage(heroDamage);
+		
+		monsterMessage(monsterDamage);
+		
+		heroHealth = heroHealth - monsterDamage;
+		
+		monsterHealth = monsterHealth - heroDamage;
+		
+		document.getElementById('idHeroHealth').innerHTML = heroHealth;
+		
+		document.getElementById('idMonsterHealth').innerHTML = monsterHealth;
+		
+		
+		
+		}
+		
+		
+		if(monsterHealth <= 0){
+		
+		monsterHealth = 0;
+		
+		
+		monstersDefeated = monstersDefeated + 1;
+		
+		document.getElementById('idMonsterHealth').innerHTML = monsterHealth;
+		
+		document.getElementById('idMonstersDefeated').innerHTML = monstersDefeated;
+		
+		document.getElementById('idButtonContainer').innerHTML = '<input type="button" value="Next Monster" onClick="setNewMonster()">'
+		
+		}
+	
+		
+
+		
+	
+		if(monstersDefeated == 5){
+		
+		var output;
+		
+		output = "Your hero is victorious in battle!";
+		
+		document.getElementById('idHeroMessage').innerHTML = output;
+		
+		document.getElementById('idMonsterMessage').innerHTML = " ";
+		
+		document.getElementById('idButtonContainer').innerHTML = '<input type="button" value="Reset Game" onClick="resetEntireGame()">'
+		
+		}
+		
+		
+		if(heroHealth <= 0){
+		
+		heroHealth = 0;
+		
+		var output;
+		
+		output = "Your hero has fallen in battle!";
+		
+		document.getElementById('idHeroHealth').innerHTML = heroHealth;
+		
+		document.getElementById('idHeroMessage').innerHTML = output;
+		
+		document.getElementById('idMonsterMessage').innerHTML = " ";
+		
+		document.getElementById('idButtonContainer').innerHTML = '<input type="button" value="Reset Game" onClick="resetEntireGame()">'
+		
+		}
+		
+		}
+		
+	
+		
+		
+	</script>
+</head>
+
+
+<body onLoad = "setNewMonster()">
+
+
+<body>
+
+	<!-- add a header-->
+	<h1>Fun Monster Fun Game</h1>
+	
+	<!-- add an image of the first hero with an id of "idPicHero" -->
+	<img id="idPicHero"></img>
+	
+	<!-- add an image of the first monster with an id of "idPicMonster" -->
+	<img id="idPicMonster"></img>
+	
+	
+
+	<!-- add <div> elements with appropriate ids for the hero health, monster health, and number of monsters defeated-->
+	<br>
+	<br>
+	Hero Health: <div id="idHeroHealth">100</div>
+	Monster Health: <div id="idMonsterHealth">100</div>
+	Monsters Defeated: <div id="idMonstersDefeated">0</div>
+	<br>
+	
+	<!-- add a <div> element with an id of "idButtonContainer" and put code for a 'Fight!' button between the <div></div> tags-->
+	<div id = "idButtonContainer"><input type="button" value="Fight!" onClick="play()"></div>
+	
+	<br>
+	
+
+	<!-- add a <div> element with an appropriate id for the descriptive messages that appear as you play the game-->
+	<div id="idHeroMessage"></div>
+	<div id="idMonsterMessage"></div>
+	
+	<br> 
+	Change your avatar:
+	<select id="idSelect">
+		<option>johnny appleseed</option>
+		<option>green giant</option>
+		<option>lorax</option>
+		<option>smokey</option>
+		<option>tin man</option>
+		<option>paul bunyan</option>
+	</select>
+	<!-- add an event handler below that calls the correct function to update the avatar-->
+	<input type="button" value="Change Avatar" onClick="changeHero()">
+	
+	
+	
+</body>
+
+</html>

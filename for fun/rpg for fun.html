@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Momentous</title>
+	<style>
+		body {
+			padding: 10px 0;
+			border: 5px solid black;
+			text-align: center;
+			background-color: rgb(25,50,50);
+			font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+			color: white;
+		}
+		.hidden{
+		visibility: hidden;
+		}
+		h1
+		{
+		color: black
+		}
+		div
+		{
+		color: white
+		}
+	</style>
+			
+	<script>
+
+	var strength = 2
+	var currenthealth = 12
+	var maxhealth = 12
+	var meleemodifier = -8
+	var dexterity = 2
+	var priority = -8
+	var weaponskill = 2
+	var skillpoints = 24
+	
+	// Code citation:
+	// 		Author: Mozilla Foundation
+	//		Accessed: 12/3/2018
+	//		URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random 
+	// 		Purpose: Generate a random number between a minimum and a maximum that is inclusive of each 
+	function randomInt(min, max) {
+		min = Math.ceil(min)
+		max = Math.floor(max)
+		return Math.floor(Math.random() * (max - min + 1)) + min
+	}
+	
+	function hide234(){
+		var button2 = document.getElementById('button2')
+		button2.classList.add('hidden')
+		var button3 = document.getElementById('button3')
+		button3.classList.add('hidden')
+		var button4 = document.getElementById('button4')
+		button4.classList.add('hidden')
+	}
+	
+	function unhide234(){
+		var button2 = document.getElementById('button2')
+		button2.classList.remove('hidden')
+		var button3 = document.getElementById('button3')
+		button3.classList.remove('hidden')
+		var button4 = document.getElementById('button4')
+		button4.classList.remove('hidden')
+	}
+	
+	function intro(){
+		document.getElementById('text').innerHTML = "Welcome to Momentous! Momentous is a text-based RPG centralized around gaining momentum in battle. Ready to begin?"
+		hide234()
+	}
+	
+	function statinfo(){
+		document.getElementById('text').innerHTML = "You have 3 base stats: strength, dexterity, and weapon skill. Strength influences your total health and the amount of damage you deal in combat. Dexterity influences priority - having a higher priority than your enemy means you'll act first in combat. Weapon skill influences your accuracy when you attack. You have 24 skill points to put into these 3 stats."
+		hide234()
+		document.getElementById('button1').innerHTML = '<input type="button" value="Determine Strength" onClick="determinestrength()">'
+	}
+	
+	function determinestrength(){
+		document.getElementById('text').innerHTML = "Your strength must be at least 2 and at most 19."
+		unhide234()
+		document.getElementById('button1').innerHTML = '<input type="button" value="Add 1 to strength" onClick="addstrength()">'
+		document.getElementById('button2').innerHTML = '<input type="button" value="Subtract 1 from strength" onClick="subtractstrength()">'
+		document.getElementById('button3').innerHTML = '<input type="button" value="Determine Dexterity" onClick="determinedexterity()">'
+		document.getElementById('button4').innerHTML = '<input type="button" value="Go back" onClick="statinfo()">'
+	}
+	
+	function addstrength(){
+		if(skillpoints > 0 && strength < 19){
+			strength += 1
+			currenthealth = strength + 10
+			maxhealth = strength + 10
+			meleemodifier = strength - 10
+			skillpoints -= 1
+			document.getElementById('strength').innerHTML = strength
+			document.getElementById('currenthealth').innerHTML = currenthealth
+			document.getElementById('skillpoints').innerHTML = skillpoints
+			document.getElementById('text').innerHTML = ""
+		}
+		else if(skillpoints == 0){
+			document.getElementById('text').innerHTML = "You're out of skill points!"
+		}
+		else if(strength = 19){
+			document.getElementById('text').innerHTML = "You've maxed out your strength!"
+		}
+	}
+	
+	function subtractstrength(){
+		if(strength > 2){
+			strength -= 1
+			currenthealth = strength + 10
+			maxhealth = strength + 10
+			meleemodifier = strength - 10
+			skillpoints += 1
+			document.getElementById('strength').innerHTML = strength
+			document.getElementById('currenthealth').innerHTML = currenthealth
+			document.getElementById('skillpoints').innerHTML = skillpoints
+			document.getElementById('text').innerHTML = ""
+		}
+		else{
+			document.getElementById('text').innerHTML = "Your strength can't go any lower!"
+		}
+	}
+	
+	function determinedexterity(){
+		document.getElementById('text').innerHTML = "Your dexterity must be at least 2 and at most 19."
+		unhide234()
+		document.getElementById('button1').innerHTML = '<input type="button" value="Add 1 to dexterity" onClick="adddexterity()">'
+		document.getElementById('button2').innerHTML = '<input type="button" value="Subtract 1 from dexterity" onClick="subtractdexterity()">'
+		document.getElementById('button3').innerHTML = '<input type="button" value="Determine Weapon Skill" onClick="weaponskill()">'
+		document.getElementById('button4').innerHTML = '<input type="button" value="Go back" onClick="determinestrength()">'
+	}
+	
+	function addstrength(){
+		if(skillpoints > 0 && strength < 19){
+			strength += 1
+			currenthealth = strength + 10
+			maxhealth = strength + 10
+			meleemodifier = strength - 10
+			skillpoints -= 1
+			document.getElementById('strength').innerHTML = strength
+			document.getElementById('currenthealth').innerHTML = currenthealth
+			document.getElementById('skillpoints').innerHTML = skillpoints
+			document.getElementById('text').innerHTML = ""
+		}
+		else if(skillpoints == 0){
+			document.getElementById('text').innerHTML = "You're out of skill points!"
+		}
+		else if(strength = 19){
+			document.getElementById('text').innerHTML = "You've maxed out your strength!"
+		}
+	}
+	
+	function subtractstrength(){
+		if(strength > 2){
+			strength -= 1
+			currenthealth = strength + 10
+			maxhealth = strength + 10
+			meleemodifier = strength - 10
+			skillpoints += 1
+			document.getElementById('strength').innerHTML = strength
+			document.getElementById('currenthealth').innerHTML = currenthealth
+			document.getElementById('skillpoints').innerHTML = skillpoints
+			document.getElementById('text').innerHTML = ""
+		}
+		else{
+			document.getElementById('text').innerHTML = "Your strength can't go any lower!"
+		}
+	}
+	
+	</script>
+</head>
+
+<body onLoad = "intro()">
+
+	<h1>Momentous</h1>
+	
+	Strength: <div id="strength">2</div>
+	Health: <div id ="currenthealth">12</div>
+	Dexterity: <div id="dexterity">2</div>
+	Weapon Skill: <div id="weaponskill">2</div>
+	Inventory: <div id ="inventory">Nothin'</div>
+	<div id ="skillpointsheader">Skill Points:</div>
+	<div id="skillpoints">24</div>	
+	<br>
+	<div id="text"></div>
+	<br>
+	<div id = "button1"><input type="button" value="Begin" onClick="statinfo()"></div>
+	<div id = "button2"><input type="button" value="blarg" onClick="blarg()"></div>
+	<div id = "button3"><input type="button" value="blarg" onClick="blarg()"></div>
+	<div id = "button4"><input type="button" value="blarg" onClick="blarg()"></div>
+	
+</body>
+
+</html>

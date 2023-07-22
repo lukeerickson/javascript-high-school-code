@@ -1,0 +1,1006 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Road to New Vegas</title>
+	<style>
+		body {
+			padding: 25px 0;
+			border: 5px solid black;
+			text-align: center;
+			background-color: rgb(100,25,25);
+			font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+			color: white;
+		}
+		.hidden{
+		visibility: hidden;
+		}
+		h1
+		{
+		color: black
+		}
+		div
+		{
+		color: white
+		}
+	</style>
+			
+	<script>
+	
+	//mechanics inspired by oregon trail and deathroad to canada
+	//theme inspired by fallout
+	
+
+	
+	var health = 0
+	var inventory = []
+	var ammo = 0
+	var stimpaks = 0
+	var caps = 0
+	var food = 0
+	var eventsPerDay = 0
+	var daysSurvived = 0
+	var enemy = ""
+	var enemyHealth = 0
+	var poisoned = false
+
+	
+	
+	//displays message if player dies
+	function death(){
+	
+	health = 0
+	
+	document.getElementById('idHealth').innerHTML = health
+	
+	//display message accordingly if player has run out of food
+	if(food == 0){
+	
+	document.getElementById('idMessage').innerHTML = "You have run out of food and starved to death. You never made it to New Vegas."
+	
+	}
+	
+	//display message accordingly if player has died in any other manner
+	else{
+	
+	document.getElementById('idMessage').innerHTML = "You have died tragically. Your body will either soon be covered by sand or devoured by a lucky ghoul."
+	
+	}
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Begin once more" onClick="intro()">'
+	
+	var element2 = document.getElementById('idButtonContainer2')
+	element2.classList.add('hidden')
+	var element3 = document.getElementById('idButtonContainer3')
+	element3.classList.add('hidden')
+	
+	}
+	
+	
+	
+	//runs new message for inventory if it is empty
+	function inventoryEmpty(){
+	
+	document.getElementById('idInventory').innerHTML = "Only the clothes on your back"
+	
+	}
+	
+	
+	
+	function foodEmpty(){
+	
+	//run death function if player is out of food
+	if(food < 0){
+	
+	food = 0
+	death()
+	
+	document.getElementById('idFood').innerHTML = food
+	
+	}
+	}
+	
+	
+	
+	//introduces player to game, resets global variables
+	function intro(){
+	
+	inventory = []
+	inventoryEmpty()
+	ammo = 0
+	stimpaks = 0
+	daysSurvived = 0
+	food = 0
+	poisoned = false
+	
+	document.getElementById('idAmmo').innerHTML = ammo
+	document.getElementById('idStimpaks').innerHTML = stimpaks
+	document.getElementById('idFood').innerHTML = food
+	document.getElementById('idDaysSurvived').innerHTML = daysSurvived
+	
+	document.getElementById('idMessage').innerHTML = "After living within the confines of an underground Vault your entire life, you decide to leave the Vault and get a taste of post-war life in the atomic wastes. A nearby billboard directs you to visit fabulous 'New' Vegas." 
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Next Message" onClick="introduceInventory()">'
+
+	var elementMenu = document.getElementById('idTradeMenu')
+	elementMenu.classList.add('hidden')
+	var elementFixed = document.getElementById('idEnemyHealthFixed')
+	elementFixed.classList.add('hidden')
+	var element = document.getElementById('idEnemyHealth')
+	element.classList.add('hidden')
+	var element2 = document.getElementById('idButtonContainer2')
+	element2.classList.add('hidden')
+	var element3 = document.getElementById('idButtonContainer3')
+	element3.classList.add('hidden')
+	
+	}
+	
+	
+	
+	//establishes beginning inventory
+	function introduceInventory(){
+	
+	health = 100
+	inventory.push("Small Blaster")
+	ammo = 24
+	stimpaks = 3
+	caps = 0
+	food = 10
+	
+	document.getElementById('idHealth').innerHTML = health
+	document.getElementById('idInventory').innerHTML = inventory
+	document.getElementById('idAmmo').innerHTML = ammo
+	document.getElementById('idStimpaks').innerHTML = stimpaks
+	document.getElementById('idCaps').innerHTML = caps
+	document.getElementById('idFood').innerHTML = food
+	
+	var output
+	output = "In your inventory, you have a "
+	output += inventory
+	output += ", "
+	output += ammo
+	output += " ammo, "
+	output += stimpaks
+	output += " stimpaks, "
+	output += caps
+	output += " caps, and "
+	output += food
+	output += " food"
+	document.getElementById('idMessage').innerHTML = output
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Start walking" onClick="walk()">'
+	
+	}
+	
+	
+	
+	// Code citation:
+	// 		Author: Mozilla Foundation
+	//		Accessed: 12/3/2018
+	//		URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random 
+	// 		Purpose: Generate a random number between a minimum and a maximum that is inclusive of each 
+	function randomInt(min, max) {
+	
+	min = Math.ceil(min)
+	max = Math.floor(max)
+	return Math.floor(Math.random() * (max - min + 1)) + min
+	
+	}
+	
+	
+	
+	// Code citation:
+	// 		Author: Stack Overflow user kennebec
+	//		Accessed: 12/16/2018
+	//		URL: https://stackoverflow.com/questions/3954438/how-to-remove-item-from-array-by-value
+	// 		Purpose: Remove a specific item from an array
+	function removeA(arr) {
+	
+	var what, a = arguments, L = a.length, ax
+    
+	while (L > 1 && arr.length) {
+        what = a[--L]
+        while((ax= arr.indexOf(what)) !== -1){
+            arr.splice(ax, 1)
+			
+        }
+    }
+	}
+	
+	
+	
+	function walk(){
+	
+	document.getElementById('idMessage').innerHTML = "You continue walking along the dusty, cracked roads of the Wasteland"
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Continue" onClick="newEvent()">'
+	document.getElementById('idButtonContainer2').innerHTML = '<input type="button" value="Use Stimpak" onClick="stimpak()">'
+	document.getElementById('idButtonContainer3').innerHTML = '<input type="button" value="Use Antidote" onClick="antidote()">'
+	
+	var elementMenu = document.getElementById('idTradeMenu')
+	elementMenu.classList.add('hidden')
+	var element2 = document.getElementById('idButtonContainer2')
+	element2.classList.remove('hidden')
+	var element3 = document.getElementById('idButtonContainer3')
+	element3.classList.remove('hidden')
+	
+	}
+	
+	
+	
+	function endDay(){
+	
+	eventsPerDay = 0
+	food = food - 1
+	daysSurvived = daysSurvived + 1
+	
+	document.getElementById('idFood').innerHTML = food
+	document.getElementById('idDaysSurvived').innerHTML = daysSurvived
+	
+	document.getElementById('idMessage').innerHTML = "You end the day by eating a basic meal and sleeping under a makeshift shelter"
+	
+	if(poisoned == true){
+	
+	var poisonDamage = randomInt(1,5)
+	health = health - poisonDamage
+	
+	document.getElementById('idHealth').innerHTML = health
+	
+	var output
+	output = ". As a result of the poison, your body weakens and you lose "
+	output += poisonDamage
+	output += " health."
+	
+	document.getElementById('idMessage').innerHTML += output
+	
+	if(health <= 0){
+
+	death()
+	
+	}
+	}
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Start another day out on the wastes" onClick="walk()">'
+	
+	var element2 = document.getElementById('idButtonContainer2')
+	element2.classList.add('hidden')
+	var element3 = document.getElementById('idButtonContainer3')
+	element3.classList.add('hidden')
+	
+	foodEmpty()
+	
+	}
+	
+	
+	
+	//presents a new event for the player to respond to
+	function newEvent(){
+	
+	var event = randomInt(0, 3)
+	eventsPerDay = eventsPerDay + 1
+	
+	var element2 = document.getElementById('idButtonContainer2')
+	element2.classList.remove('hidden')
+	var element3 = document.getElementById('idButtonContainer3')
+	element3.classList.add('hidden')
+	
+	//enemy ghoul
+	if(event == 0){
+	
+	enemy = "Ghoul"
+	enemyHealth = 25
+	
+	document.getElementById('idMessage').innerHTML = "You stumble upon a ghoulish creature feasting on what appears to be the carcass of a two-headed cow. They have yet to notice you."
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Fight!" onClick="combat()">'
+	document.getElementById('idButtonContainer2').innerHTML = '<input type="button" value="Walk Away Slowly" onClick="walk()">'
+	
+	}
+	
+	//trading caravan
+	if(event == 1){
+	
+	document.getElementById('idMessage').innerHTML = "You spot a traveling caravan heading your direction. The caravan is composed of a trader, 2 armed guards, and a 2-headed cow."
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Trade!" onClick="trade()">'
+	document.getElementById('idButtonContainer2').innerHTML = '<input type="button" value="Walk Past Them" onClick="walk()">'
+	
+	}
+	
+	//radscorpion
+	if(event == 2){
+	
+	enemy = "Radscorpion"
+	enemyHealth = 50
+	
+	document.getElementById('idMessage').innerHTML = "A gigantic scorpion burrows out from beneath the sand and begins scuttling towards you at a fast pace"
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Fight!" onClick="combat()">'
+	document.getElementById('idButtonContainer2').innerHTML = '<input type="button" value="Run Away!" onClick="runAway()">'
+	
+	}
+	
+	//minor settlement
+	if(event == 3){
+	
+	document.getElementById('idMessage').innerHTML = "You come across a minor settlement, whose residents explain that they live off of the meat of their two-headed cows, known as brahmin. Within the settlement is a doctor who claims he can treat all of your wounds for 50 caps and can make a poison antidote out of the tail of a Radscorpion."
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Medical treatment - 50 caps" onClick="medicalTreatment()">'
+	document.getElementById('idButtonContainer2').innerHTML = '<input type="button" value="Give doctor Radscorpion Tail" onClick="createAntidote()">'
+	document.getElementById('idButtonContainer3').innerHTML = '<input type="button" value="Leave" onClick="walk()">'
+	
+	var element3 = document.getElementById('idButtonContainer3')
+	element3.classList.remove('hidden')
+	
+	}
+	
+	//run endDay function is player has completed 2 events in 1 day
+	if(eventsPerDay > 2){
+	
+	endDay()
+	
+	}
+	}
+
+	
+	
+	// Code citation:
+		// 		Author: Myself
+		//		Written: 11/7/18
+		//		Source: A basic RPG from my into coding class
+		// 		Purpose: Run through a turn of combat (I have expanded on it during the course of this AP project)
+	function combat(){
+	
+	var elementFixed = document.getElementById('idEnemyHealthFixed')
+	elementFixed.classList.remove('hidden')
+	var element = document.getElementById('idEnemyHealth')
+	element.classList.remove('hidden')
+	var element3 = document.getElementById('idButtonContainer3')
+	element3.classList.remove('hidden')
+	
+	//player and enemy are still fighting
+	if(health > 0 && enemyHealth > 0){
+	
+	var givenDamage, receivedDamage
+	
+	//if player has Medium Blaster
+	if(inventory.includes("Medium Blaster") && ammo >= 1){
+	
+	givenDamage = randomInt(5,50)
+	ammo = ammo - 1
+	
+	}
+	
+	//if player has Small Blaster
+	if(inventory.includes("Small Blaster") && ammo >= 1){
+
+	givenDamage = randomInt(1,10)
+	ammo = ammo - 1
+	
+	}
+	
+	//if player has no weapons
+	else{
+	
+	givenDamage = randomInt(1,5)
+	
+	}
+	
+	//if enemy is ghoul
+	if(enemy == "Ghoul"){
+	
+	receivedDamage = randomInt(1,10)
+	
+	}
+	
+	//if enemy is radscorpion
+	if(enemy == "Radscorpion"){
+	
+	receivedDamage = randomInt(1,20)
+	
+	}
+
+	enemyHealth = enemyHealth - givenDamage
+	health = health - receivedDamage
+		
+	document.getElementById('idHealth').innerHTML = health
+	document.getElementById('idAmmo').innerHTML = ammo
+	
+	var output
+	output = "You ";	
+	output += "have dealt "
+	output += givenDamage
+	output += " damage to "
+	output += enemy
+	output += " and "
+	output += enemy
+	output += " has dealt "
+	output += receivedDamage
+	output += " damage to you"
+	document.getElementById('idMessage').innerHTML = output	
+	
+	poison()
+	
+	}
+
+	//display message and update buttons if enemy has been defeated
+	if(enemyHealth <= 0){
+		
+	enemyHealth = 0
+	
+	document.getElementById('idMessage').innerHTML = "You have defeated "
+	document.getElementById('idMessage').innerHTML += enemy
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Loot!" onClick="loot()">'
+	
+	var element2 = document.getElementById('idButtonContainer2')
+	element2.classList.add('hidden')
+	var element3 = document.getElementById('idButtonContainer3')
+	element3.classList.add('hidden')
+		
+	}
+	
+	document.getElementById('idEnemyHealth').innerHTML = enemyHealth
+
+	//run death function is player has been defeated
+	if(health <= 0){
+		
+	death()
+		
+	}
+	
+	document.getElementById('idButtonContainer2').innerHTML = '<input type="button" value="Use Stimpak!" onClick="stimpakInCombat()">'
+	document.getElementById('idButtonContainer3').innerHTML = '<input type="button" value="Run away!" onClick="runAway()">'
+	
+	}
+	
+	
+	
+	function poison(){
+	
+	if(enemy == "Radscorpion" && poisoned == false){
+	
+	var poisonChance = randomInt(1,4)
+	
+	if(poisonChance == 1){
+	
+	poisoned = true
+	
+	document.getElementById('idMessage').innerHTML += ", poisoning you as it does so"
+	
+	}
+	}
+	}
+	
+	
+	
+	//player is healed if they use a stimpak but also takes damage from the enemy
+	function stimpakInCombat(){
+	
+	var healthHealed
+	var receivedDamage
+	
+	//if player is at max health and can't use stimpak for that reason
+	if(health == 100){
+	
+	document.getElementById('idMessage').innerHTML = "You're already at max health!"
+	
+	}
+	
+	//run function of stimpak if player has at least 1
+	else if(stimpaks >= 1){
+	
+	//set health healed to actual amount
+	if(health <= 80){
+	
+	healthHealed = 20
+	
+	}
+	
+	//set health healed to actual amount
+	else{
+	
+	healthHealed = 100 - health
+	
+	}
+	
+	//if enemy is ghoul
+	if(enemy == "Ghoul"){
+	
+	receivedDamage = randomInt(1,10)
+	
+	}
+	
+	//if enemy is radscorpion
+	if(enemy == "Radscorpion"){
+	
+	receivedDamage = randomInt(1,20)
+	
+	}
+	
+	health = health + 20
+	health = health - receivedDamage
+	stimpaks = stimpaks - 1
+	
+	//set health to 100 if it goes over
+	if(health > 100){
+	
+	health = 100
+	
+	}
+	
+	document.getElementById('idHealth').innerHTML = health
+	document.getElementById('idStimpaks').innerHTML = stimpaks
+	
+	var output
+	output = "You regained " 
+	output += healthHealed
+	output += " health from the stimpak but took "
+	output += receivedDamage
+	output += " damage from "
+	output += enemy
+	document.getElementById('idMessage').innerHTML = output	
+	
+	}
+	
+	//if player doesn't have any stimpaks
+	else{
+	
+	document.getElementById('idMessage').innerHTML = "You're fresh out of stimpaks"
+	
+	}
+	}
+	
+	
+	
+	function runAway(){
+	
+	var receivedDamage
+	
+	//if enemy is ghoul
+	if(enemy == "Ghoul"){
+	
+	receivedDamage = randomInt(1,10)
+	
+	}
+	
+	//if enemy is radscorpion
+	if(enemy == "Radscorpion"){
+	
+	receivedDamage = randomInt(1,20)
+	
+	}
+	
+	health = health - receivedDamage
+	
+	document.getElementById('idHealth').innerHTML = health
+	
+	//player is able to run away if they are still alive after being attacked
+	if(health > 0){
+	
+	var output
+	output = "You took "
+	output += receivedDamage
+	output += " damage from "
+	output += enemy
+	output += " but were able to run away"
+	document.getElementById('idMessage').innerHTML = output	
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Keep walking" onClick="walk()">'
+	
+	}
+	
+	//run death function is player has been defeated
+	else{
+	
+	death()
+	
+	}
+	
+	var elementFixed = document.getElementById('idEnemyHealthFixed')
+	elementFixed.classList.add('hidden')
+	var element = document.getElementById('idEnemyHealth')
+	element.classList.add('hidden')
+	var element2 = document.getElementById('idButtonContainer2')
+	element2.classList.add('hidden')
+	var element3 = document.getElementById('idButtonContainer3')
+	element3.classList.add('hidden')
+	
+	}
+	
+	
+
+	//loot location or enemy after they have been defeated
+	function loot(){
+	
+	var loot
+	
+	//loot 1-20 caps if enemy is Ghoul
+	if(enemy == "Ghoul"){
+	
+	loot = randomInt(1,20)
+	caps = caps + loot
+	
+	document.getElementById('idCaps').innerHTML = caps
+	
+	var output = "You have found "
+	output += loot
+	output += " caps"
+	document.getElementById('idMessage').innerHTML = output
+	
+	}
+	
+	//loot a Radscorpion tail if enemy is Radscorpion
+	if(enemy == "Radscorpion"){
+	
+	loot = "Radscorpion Tail"
+	inventory.push(loot)
+	
+	document.getElementById('idInventory').innerHTML = inventory
+	
+	var output = "You have found a "
+	output += loot
+	document.getElementById('idMessage').innerHTML = output
+	
+	}
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Keep walking" onClick="walk()">'
+	
+	var elementFixed = document.getElementById('idEnemyHealthFixed')
+	elementFixed.classList.add('hidden')
+	var element = document.getElementById('idEnemyHealth')
+	element.classList.add('hidden')
+	
+	}
+	
+	
+	
+	//player can trade w/ caravan
+	function trade(){
+	
+	document.getElementById('idButtonContainer1').innerHTML = '<input type="button" value="Buy" onClick="buy()">'
+	
+	document.getElementById('idButtonContainer2').innerHTML = '<input type="button" value="Sell" onClick="sell()">'
+	
+	document.getElementById('idButtonContainer3').innerHTML = '<input type="button" value="Leave" onClick="walk()">'
+	
+	document.getElementById('idMessage').innerHTML = "'What were you lookin' for?' the trader asks"
+	
+	var elementMenu = document.getElementById('idTradeMenu')
+	elementMenu.classList.remove('hidden')
+	var element3 = document.getElementById('idButtonContainer3')
+	element3.classList.remove('hidden')
+	
+	}
+	
+	
+	
+	//player may buy items w/ caps
+	function buy(){
+	
+	var item = document.getElementById('idTradeMenu').value
+	var itemBought = false
+	
+	if(item == "Medium Blaster - 250 caps" && caps >= 250){
+	
+	itemBought = true
+	inventory.push("Medium Blaster")
+	caps = caps - 250
+	
+	document.getElementById('idInventory').innerHTML = inventory
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You bought a Medium Blaster for 250 caps"
+	
+	}
+	
+	if(item == "Small Blaster - 100 caps" && caps >= 100){
+	
+	itemBought = true
+	inventory.push("Small Blaster")
+	caps = caps - 100
+	
+	document.getElementById('idInventory').innerHTML = inventory
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You bought a Small Blaster for 100 caps"
+	
+	}
+	
+	if(item == "Ammo - 1 cap" && caps >= 1){
+	
+	itemBought = true
+	ammo = ammo + 1
+	caps = caps - 1
+	
+	document.getElementById('idAmmo').innerHTML = ammo
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You bought 1 ammo for 1 cap"
+	
+	}
+	
+	if(item == "Stimpak - 25 caps" && caps >= 25){
+	
+	itemBought = true
+	stimpaks = stimpaks + 1
+	caps = caps - 25
+	
+	document.getElementById('idStimpaks').innerHTML = stimpaks
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You bought 1 stimpak for 25 caps"
+	
+	}
+	
+	if(item == "Food - 10 caps" && caps >= 10){
+	
+	itemBought = true
+	food = food + 1
+	caps = caps - 10
+	
+	document.getElementById('idFood').innerHTML = food
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You bought 1 food for 10 caps"
+	
+	}
+	
+	if(itemBought == false){
+	
+	document.getElementById('idMessage').innerHTML = "You don't have enough caps to buy this item"
+	
+	}
+	
+	}
+	
+	
+	
+	//player may sell items for caps
+	function sell(){
+	
+	var item = document.getElementById('idTradeMenu').value
+	var itemSold = false
+	
+	if(item == "Medium Blaster - 250 caps" && inventory.includes("Medium Blaster")){
+	
+	itemSold = true
+	removeA(inventory, "Medium Blaster")
+	caps = caps + 250
+	
+	document.getElementById('idInventory').innerHTML = inventory
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You sold a Medium Blaster for 250 caps"
+	
+	}
+	
+	if(item == "Small Blaster - 100 caps" && inventory.includes("Small Blaster")){
+	
+	itemSold = true
+	removeA(inventory, "Small Blaster")
+	caps = caps + 100
+	
+	document.getElementById('idInventory').innerHTML = inventory
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You sold a Small Blaster for 100 caps"
+	
+	}
+	
+	if(item == "Ammo - 1 cap" && ammo >= 1){
+	
+	itemSold = true
+	ammo = ammo - 1
+	caps = caps + 1
+	
+	document.getElementById('idAmmo').innerHTML = ammo
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You sold 1 ammo for 1 cap"
+	
+	}
+	
+	if(item == "Stimpak - 25 caps" && stimpaks >= 1){
+	
+	itemSold = true
+	stimpaks = stimpaks - 1
+	caps = caps + 25
+	
+	document.getElementById('idStimpaks').innerHTML = stimpaks
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You sold 1 stimpak for 25 caps"
+	
+	}
+	
+	if(item == "Food - 10 caps" && food >= 1){
+	
+	itemSold = true
+	food = food - 1
+	caps = caps + 10
+	
+	document.getElementById('idFood').innerHTML = food
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You sold 1 food for 10 caps"
+	
+	}
+	
+	else if(itemSold == false){
+	
+	document.getElementById('idMessage').innerHTML = "You don't have this item"
+	
+	}
+	
+	}
+	
+	
+	
+	//player is healed if they use a stimpak
+	function stimpak(){
+	
+	var healthHealed
+	
+	//if player is at max health and can't use stimpak for that reason
+	if(health == 100){
+	
+	document.getElementById('idMessage').innerHTML = "You're already at max health!"
+	
+	}
+	
+	//run function of stimpak if player has at least 1
+	else if(stimpaks >= 1){
+	
+	//set health healed to actual amount
+	if(health <= 80){
+	
+	healthHealed = 20
+	
+	}
+	
+	//set health healed to actual amount
+	else{
+	
+	healthHealed = 100 - health
+	
+	}
+	
+	health = health + 20
+	stimpaks = stimpaks - 1
+	
+	//set health to 100 if it goes over
+	if(health > 100){
+	
+	health = 100
+	
+	}
+	
+	document.getElementById('idHealth').innerHTML = health
+	document.getElementById('idStimpaks').innerHTML = stimpaks
+	
+	var output
+	output = "You regained " 
+	output += healthHealed
+	output += " health from the stimpak"
+	document.getElementById('idMessage').innerHTML = output 
+	
+	}
+	
+	//if player doesn't have any stimpaks
+	else{
+	
+	document.getElementById('idMessage').innerHTML = "You're fresh out of stimpaks"
+	
+	}
+	}
+	
+	
+	
+	function antidote(){
+	
+	//if player isn't poisoned and can't use antidote for that reason
+	if(poisoned == false){
+	
+	document.getElementById('idMessage').innerHTML = "You're already at max health!"
+	
+	}
+	
+	//run function of antidote if player has 1
+	else if(inventory.includes("Antidote")){
+	
+	poisoned == false
+	
+	document.getElementById('idMessage').innerHTML = "You used the Antidote and it cured your poison!"
+	
+	}
+	}
+	
+	
+	
+	function medicalTreatment(){
+	
+	if(caps >= 50){
+	
+	health = 100
+	caps = caps - 50
+	
+	document.getElementById('idHealth').innerHTML = health
+	document.getElementById('idCaps').innerHTML = caps
+	
+	document.getElementById('idMessage').innerHTML = "You're all healed up!"
+	
+	}
+	
+	else{
+	
+	document.getElementById('idMessage').innerHTML = "You don't have enough caps"
+	
+	}
+	}
+	
+	
+	
+	function createAntidote(){
+	
+	if(inventory.includes("Radscorpion Tail")){
+	
+	removeA(inventory, "Radscorpion Tail")
+	inventory.push("Antidote")
+	
+	document.getElementById('idInventory').innerHTML = inventory
+	
+	document.getElementById('idMessage').innerHTML = "You gave the doctor a Radscorpion Tail and he was able to synthesize an Antidote out of it"
+	
+	}
+	
+	else{
+	
+	document.getElementById('idMessage').innerHTML = "You don't have a Radscorpion Tail"
+	
+	}
+	}
+	
+	
+	
+	</script>
+</head>
+
+<body onLoad = "intro()">
+
+<body>
+
+	<h1>Road to New Vegas</h1>
+	
+	Health: <div id="idHealth">0</div>
+	Inventory: <div id ="idInventory"></div>
+	Ammo: <div id="idAmmo">0</div>
+	Stimpaks (healing): <div id="idStimpaks">0</div>
+	Caps (money): <div id="idCaps">0</div>
+	Food: <div id="idFood">0</div>
+	Days Survived: <div id="idDaysSurvived">0</div>
+	<div id ="idEnemyHealthFixed">Enemy Health:</div>
+	<div id="idEnemyHealth">0</div>
+	
+	<br>
+	
+	<div id="idMessage"></div>
+	
+	<br>
+	
+	<select id="idTradeMenu">
+	<option>Medium Blaster - 250 caps</option>
+	<option>Small Blaster - 100 caps</option>
+	<option>Ammo - 1 cap</option>			
+	<option>Stimpak - 25 caps</option>
+	<option>Food - 10 caps</option>
+	</select>
+	
+	<div id = "idButtonContainer1"><input type="button" value="" onClick=""></div>
+	
+	<div id = "idButtonContainer2"><input type="button" value="" onClick=""></div>
+	
+	<div id = "idButtonContainer3"><input type="button" value="" onClick=""></div>
+
+</body>
+
+</html>
